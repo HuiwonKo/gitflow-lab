@@ -26,7 +26,7 @@ jobs:
         await github.request(`POST /repos/${{ github.repository }}/releases`,
         {
           tag_name: "{{ steps.extract_version_name.outputs.version }}",
-          name: ${{ steps.extract_version_name.outputs.version }}
+          name: ${{ steps.extract_version_name.outputs.version }},
           generate_release_notes: true
         });
 
