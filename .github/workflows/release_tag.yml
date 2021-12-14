@@ -1,4 +1,4 @@
-name: Create Tag and Release
+name: Create Tag and Draft Release
 on:
   push:
     branches:
@@ -12,7 +12,7 @@ jobs:
       run: echo "##[set-output name=version;]$(echo '${{ github.event.head_commit.message }}' | egrep -o '[0-9]{1,4}\.[0-9]{1,2}\.[0-9]{1,2}\')"
       id: extract_version_name
       
-    - name: Create release with release notes
+    - name: Create draft release with release notes
       uses: actions/github-script@v4.0.2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -20,5 +20,8 @@ jobs:
           await github.request(`POST /repos/${{ github.repository }}/releases`, {
             tag_name: "${{ steps.extract_version_name.outputs.version }}",
             name: "${{ steps.extract_version_name.outputs.version }}",
-            generate_release_notes: true
+            generate_release_notes: true, 
+            draft: true, 
           });
+
+# target_commitish: "master/main",
