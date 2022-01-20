@@ -9,7 +9,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Version information extraction
-      run: echo "##[set-output name=version;]$(echo '${{ github.event.head_commit.message }}' | egrep -o '[0-9]{1,4}\.[0-9]{1,2}\.[0-9]{1,2}')"
+      run: echo "##[set-output name=version;]$(echo '${{ github.event.head_commit.message }}' | egrep -o '[0-9]{1,4}\.[0-9]{1,2}\.[0-9]{1,2}\.*[a-zA-Z]{0,5}[0-9]{0,2}')"
       id: extract_version_name
       
     - name: Create release
@@ -21,5 +21,7 @@ jobs:
             tag_name: "${{ steps.extract_version_name.outputs.version }}",
             name: "${{ steps.extract_version_name.outputs.version }}",
             generate_release_notes: true,
-            draft: true
+            draft: true,
+            target_commitish: "master",
           });
+
